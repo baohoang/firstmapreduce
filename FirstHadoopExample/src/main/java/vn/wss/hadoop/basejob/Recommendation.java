@@ -66,8 +66,8 @@ public class Recommendation extends Configuration implements Tool {
 		Path out = new Path(OUTPUT_LOCATION);
 		FileSystem fs = FileSystem.get(conf);
 		fs.delete(out, true);
-		
-		//set output
+
+		// set output
 		FileOutputFormat.setOutputPath(conf, out);
 		JobClient.runJob(conf);
 		return 0;

@@ -28,9 +28,14 @@ public class CopyData {
 		return instance;
 	}
 
+	BoundStatement boundStatement = null;
+
 	public CopyData() {
 		log.info("create new instance");
 		connect();
+		String cql = "INSERT INTO tracking (year_month, at, ip, referer, session_id, uri) VALUES (?,?,?,?,?,?);";
+		statement = session.prepare(cql);
+		boundStatement = new BoundStatement(statement);
 	}
 
 	void connect() {
@@ -40,10 +45,6 @@ public class CopyData {
 	}
 
 	void writeData(Tracking tracking) {
-
-		String cql = "INSERT INTO tracking (year_month, at, ip, referer, session_id, uri) VALUES (?,?,?,?,?,?);";
-		PreparedStatement statement = session.prepare(cql);
-		BoundStatement boundStatement = new BoundStatement(statement);
 		session.execute(boundStatement.bind(tracking.getYear_month(),
 				tracking.getAt(), tracking.getIp(), tracking.getReferer(),
 				tracking.getSessionId(), tracking.getUri()));
@@ -66,30 +67,16 @@ public class CopyData {
 	}
 
 	public static void main(String[] args) {
-		// List<Tracking> list = CassandraDB.getInstance().getResult(10);
-		// CopyData.getInstance().copyData(list);
-		Date d = new DateTime(2015, 1, 15, 0, 0).toDate();
-		// System.out.println(d.getYear()+" "+d.getMonth());
-		int year_month = 201501;
+		int month = Integer.parseInt(args[0]);
+		Date d = new DateTime(2015, month, 0, 0, 0).toDate();
+		int year_month = 2015 * 100 + month;
 		int limit = 100;
-		int count = 0;
 		List<Tracking> res = CassandraDB.getInstance().getTrackings(year_month,
 				d, limit);
-		while (true) {
-			if (res.size() == 0) {
-				count++;
-				if (count == 2) {
-					break;
-				} else {
-					res = CassandraDB.getInstance().getTrackings(++year_month,
-							d, limit);
-				}
-			} else {
-				CopyData.getInstance().copyData(res);
-				d = res.get(res.size() - 1).getAt();
-				res = CassandraDB.getInstance().getTrackings(year_month, d,
-						limit);
-			}
+		while (res.size() > 0) {
+			CopyData.getInstance().copyData(res);
+			d = res.get(res.size() - 1).getAt();
+			res = CassandraDB.getInstance().getTrackings(year_month, d, limit);
 		}
 		CassandraDB.getInstance().close();
 		CopyData.getInstance().close();
