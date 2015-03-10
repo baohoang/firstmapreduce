@@ -27,6 +27,7 @@ public class DataMapper extends MapReduceBase
 		// TODO Auto-generated method stub
 		String uri = null;
 		String useridText = null;
+		logger.info("starting ...");
 		for (Entry<String, ByteBuffer> e : columns.entrySet()) {
 
 			String value = ByteBufferUtil.string(e.getValue());

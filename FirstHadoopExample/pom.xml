@@ -105,7 +105,7 @@
 
 	</dependencies>
 	<build>
-		<finalName>dateutils</finalName>
+		<finalName>recommendation</finalName>
 		<plugins>
 
 			<!-- download source code in Eclipse, best practice -->
