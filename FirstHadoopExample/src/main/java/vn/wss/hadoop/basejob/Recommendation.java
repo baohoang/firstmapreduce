@@ -1,5 +1,6 @@
 package vn.wss.hadoop.basejob;
 
+import org.apache.cassandra.dht.Murmur3Partitioner;
 import org.apache.cassandra.hadoop.ColumnFamilyInputFormat;
 import org.apache.cassandra.hadoop.ConfigHelper;
 import org.apache.cassandra.hadoop.cql3.CqlConfigHelper;
@@ -52,7 +53,7 @@ public class Recommendation extends Configuration implements Tool {
 		// setup Input Cassandra
 		ConfigHelper.setInputInitialAddress(conf, "locahost");
 		ConfigHelper.setInputColumnFamily(conf, KEYSPACE, COLUMN_FAMILY);
-		ConfigHelper.setInputPartitioner(conf, "com.apache.cassandra.dht.RandomPartitioner");
+		ConfigHelper.setInputPartitioner(conf, Murmur3Partitioner.class.getName());
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
 		CqlConfigHelper.setInputCQLPageRowSize(conf, "3");
 
