@@ -54,7 +54,7 @@ public class Recommendation extends Configuration implements Tool {
 		// Path inp = new Path(args[0]);
 
 		// setup Input Cassandra
-		ConfigHelper.setInputInitialAddress(conf, "locahost");
+		ConfigHelper.setInputInitialAddress(conf, args[0]);
 		ConfigHelper.setInputColumnFamily(conf, KEYSPACE, COLUMN_FAMILY);
 		// SlicePredicate predicate = new SlicePredicate();
 		// predicate.setSlice_range(new SliceRange(null, null, false,
