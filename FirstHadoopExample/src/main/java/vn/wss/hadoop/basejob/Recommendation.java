@@ -19,6 +19,16 @@ public class Recommendation extends Configuration implements Tool {
 
 	private final static String OUTPUT_LOCATION = "/recommendation/basejob";
 
+	public void setConf(Configuration conf) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public Configuration getConf() {
+		// TODO Auto-generated method stub
+		return new Configuration();
+	}
+
 	public int run(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		JobConf conf = new JobConf(getConf(), Recommendation.class);
@@ -40,9 +50,9 @@ public class Recommendation extends Configuration implements Tool {
 		// Path inp = new Path(args[0]);
 
 		// setup Input Cassandra
-		ConfigHelper.setInputInitialAddress(conf, args[0]);
+		ConfigHelper.setInputInitialAddress(conf, "locahost");
 		ConfigHelper.setInputColumnFamily(conf, KEYSPACE, COLUMN_FAMILY);
-		ConfigHelper.setInputPartitioner(conf, "MurMur3Partition");
+		ConfigHelper.setInputPartitioner(conf, "com.apache.cassandra.thrift.MurMur3Partition");
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
 		CqlConfigHelper.setInputCQLPageRowSize(conf, "3");
 
@@ -73,15 +83,6 @@ public class Recommendation extends Configuration implements Tool {
 			e.printStackTrace();
 		}
 		System.exit(res);
-	}
-
-	public void setConf(Configuration conf) {
-		// TODO Auto-generated method stub
-	}
-
-	public Configuration getConf() {
-		// TODO Auto-generated method stub
-		return new Configuration();
 	}
 
 }
