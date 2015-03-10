@@ -81,7 +81,7 @@ public class Recommendation extends Configuration implements Tool {
 
 	public Configuration getConf() {
 		// TODO Auto-generated method stub
-		return null;
+		return new Configuration();
 	}
 
 }
