@@ -15,23 +15,24 @@ import com.datastax.driver.core.Session;
 public class CopyData {
 	private static final Logger log = LogManager.getLogger(CopyData.class);
 	private static CopyData instance = null;
-	final String CONTACT_POINT = "192.168.100.33";
+	private String CONTACT_POINT;
 	final String KEYSPACE = "tracking";
 	PreparedStatement statement;
 	Cluster cluster;
 	Session session;
 
-	public static CopyData getInstance() {
+	public static CopyData getInstance(String s) {
 		if (instance == null) {
-			instance = new CopyData();
+			instance = new CopyData(s);
 		}
 		return instance;
 	}
 
 	BoundStatement boundStatement = null;
 
-	public CopyData() {
+	public CopyData(String s) {
 		log.info("create new instance");
+		this.CONTACT_POINT = s;
 		connect();
 		String cql = "INSERT INTO tracking (year_month, at, ip, referer, session_id, uri) VALUES (?,?,?,?,?,?);";
 		statement = session.prepare(cql);
@@ -67,18 +68,19 @@ public class CopyData {
 	}
 
 	public static void main(String[] args) {
-		int month = Integer.parseInt(args[0]);
+		int month = Integer.parseInt(args[1]);
 		Date d = new DateTime(2015, month, 1, 0, 0).toDate();
 		int year_month = 2015 * 100 + month;
 		int limit = 100;
 		List<Tracking> res = CassandraDB.getInstance().getTrackings(year_month,
 				d, limit);
+		CopyData cp = new CopyData(args[0]);
 		while (res.size() > 0) {
-			CopyData.getInstance().copyData(res);
+			cp.copyData(res);
 			d = res.get(res.size() - 1).getAt();
 			res = CassandraDB.getInstance().getTrackings(year_month, d, limit);
 		}
 		CassandraDB.getInstance().close();
-		CopyData.getInstance().close();
+		cp.close();
 	}
 }
