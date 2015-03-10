@@ -90,7 +90,7 @@ public class CassandraDB {
 		ResultSet resultSet = session.execute(getTracking.bind(year_month,
 				from, limit));
 		for (Row row : resultSet) {
-			// log.info(row.toString());
+			log.info(row.toString());
 			Date at = row.getDate("at");
 			String ip = row.getString("ip");
 			String referer = row.getString("referer");
