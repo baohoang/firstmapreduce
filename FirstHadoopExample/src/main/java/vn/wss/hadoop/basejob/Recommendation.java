@@ -52,7 +52,7 @@ public class Recommendation extends Configuration implements Tool {
 		// setup Input Cassandra
 		ConfigHelper.setInputInitialAddress(conf, "locahost");
 		ConfigHelper.setInputColumnFamily(conf, KEYSPACE, COLUMN_FAMILY);
-		ConfigHelper.setInputPartitioner(conf, "com.apache.cassandra.thrift.MurMur3Partition");
+		ConfigHelper.setInputPartitioner(conf, "com.apache.cassandra.dht.RandomPartitioner");
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
 		CqlConfigHelper.setInputCQLPageRowSize(conf, "3");
 
