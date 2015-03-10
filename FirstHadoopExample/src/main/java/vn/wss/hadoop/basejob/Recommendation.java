@@ -19,15 +19,6 @@ public class Recommendation extends Configuration implements Tool {
 
 	private final static String OUTPUT_LOCATION = "/recommendation/basejob";
 
-	public void setConf(Configuration conf) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public Configuration getConf() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public int run(String[] args) throws Exception {
 		// TODO Auto-generated method stub
@@ -83,6 +74,15 @@ public class Recommendation extends Configuration implements Tool {
 			e.printStackTrace();
 		}
 		System.exit(res);
+	}
+
+	public void setConf(Configuration conf) {
+		// TODO Auto-generated method stub
+	}
+
+	public Configuration getConf() {
+		// TODO Auto-generated method stub
+		return getConf();
 	}
 
 }
