@@ -4,6 +4,8 @@ import org.apache.cassandra.dht.Murmur3Partitioner;
 import org.apache.cassandra.hadoop.ColumnFamilyInputFormat;
 import org.apache.cassandra.hadoop.ConfigHelper;
 import org.apache.cassandra.hadoop.cql3.CqlConfigHelper;
+import org.apache.cassandra.thrift.SlicePredicate;
+import org.apache.cassandra.thrift.SliceRange;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -53,6 +55,9 @@ public class Recommendation extends Configuration implements Tool {
 		// setup Input Cassandra
 		ConfigHelper.setInputInitialAddress(conf, "locahost");
 		ConfigHelper.setInputColumnFamily(conf, KEYSPACE, COLUMN_FAMILY);
+		SlicePredicate predicate = new SlicePredicate();
+		predicate.setSlice_range(new SliceRange(null, null, false, Integer.MAX_VALUE));
+        ConfigHelper.setInputSlicePredicate(getConf(), predicate);
 		ConfigHelper.setInputPartitioner(conf, Murmur3Partitioner.class.getName());
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
 		CqlConfigHelper.setInputCQLPageRowSize(conf, "3");
