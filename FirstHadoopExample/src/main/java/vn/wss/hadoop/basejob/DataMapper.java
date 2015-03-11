@@ -7,6 +7,7 @@ import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.cassandra.db.BufferCell;
 import org.apache.cassandra.db.Cell;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.io.LongWritable;
@@ -19,30 +20,27 @@ import org.apache.logging.log4j.Logger;
 
 public class DataMapper extends MapReduceBase
 		implements
-		Mapper<ByteBuffer, SortedMap<ByteBuffer, Cell>, LongWritable, LongWritable> {
+		Mapper<ByteBuffer, SortedMap<ByteBuffer, BufferCell>, LongWritable, LongWritable> {
 
 	private static final Logger logger = LogManager.getLogger(DataMapper.class);
 
-	public void map(ByteBuffer keys, SortedMap<ByteBuffer, Cell> columns,
+	public void map(ByteBuffer keys, SortedMap<ByteBuffer, BufferCell> columns,
 			OutputCollector<LongWritable, LongWritable> context, Reporter arg3)
 			throws IOException {
 		// TODO Auto-generated method stub
 		// String uri = null;
 		// String useridText = null;
 		logger.info("read a row with key: " + ByteBufferUtil.toInt(keys));
-		logger.info("read: "
-				+columns.size());
-		for (Entry<ByteBuffer, Cell> e : columns.entrySet()) {
-			ByteBuffer key = e.getKey();
-			Cell column = e.getValue();
-			 logger.info("key: "+ByteBufferUtil.toInt(key));
-			//logger.info("column: "+column.);
-//			// if ("uri".equalsIgnoreCase(e.getKey())) {
-//			// uri = ByteBufferUtil.string(e.getValue());
-//			// }
-//			// if ("userid".equalsIgnoreCase(e.getKey())) {
-//			// useridText = ByteBufferUtil.string(e.getValue());
-//			// }
+		logger.info("read: " + columns.size());
+		for (BufferCell e : columns.values()) {
+			ByteBuffer key = e.value();
+			logger.info("column: " + ByteBufferUtil.string(key));
+			// // if ("uri".equalsIgnoreCase(e.getKey())) {
+			// // uri = ByteBufferUtil.string(e.getValue());
+			// // }
+			// // if ("userid".equalsIgnoreCase(e.getKey())) {
+			// // useridText = ByteBufferUtil.string(e.getValue());
+			// // }
 		}
 		// long userID = getUserID(useridText);
 		// long itemID = getItemID(uri);
