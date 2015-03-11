@@ -7,7 +7,7 @@ import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.cassandra.db.Column;
+import org.apache.cassandra.db.Cell;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapred.MapReduceBase;
@@ -19,22 +19,22 @@ import org.slf4j.LoggerFactory;
 
 public class DataMapper extends MapReduceBase
 		implements
-		Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>, LongWritable, LongWritable> {
+		Mapper<ByteBuffer, SortedMap<ByteBuffer, Cell>, LongWritable, LongWritable> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(DataMapper.class);
 
-	public void map(ByteBuffer keys, SortedMap<ByteBuffer, Column> columns,
+	public void map(ByteBuffer keys, SortedMap<ByteBuffer, Cell> columns,
 			OutputCollector<LongWritable, LongWritable> context, Reporter arg3)
 			throws IOException {
 		// TODO Auto-generated method stub
-//		String uri = null;
-//		String useridText = null;
-//		logger.info("starting ...");
+		// String uri = null;
+		// String useridText = null;
+		// logger.info("starting ...");
 		logger.info("keys: " + ByteBufferUtil.string(keys));
-		for (Entry<ByteBuffer, Column> e : columns.entrySet()) {
+		for (Entry<ByteBuffer, Cell> e : columns.entrySet()) {
 			String key = ByteBufferUtil.string(e.getKey());
-			Column column = e.getValue();
+			Cell column = e.getValue();
 			logger.info("colum: " + key + " " + column.toString());
 			// if ("uri".equalsIgnoreCase(e.getKey())) {
 			// uri = ByteBufferUtil.string(e.getValue());
@@ -50,8 +50,6 @@ public class DataMapper extends MapReduceBase
 		// }
 		context.collect(new LongWritable(1), new LongWritable(1));
 	}
-
-	
 
 	public long getUserID(String s) {
 		String regex = "\\d+";
