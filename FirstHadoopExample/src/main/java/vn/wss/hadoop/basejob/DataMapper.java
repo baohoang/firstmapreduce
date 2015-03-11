@@ -2,7 +2,6 @@ package vn.wss.hadoop.basejob;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.charset.MalformedInputException;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.regex.Matcher;
@@ -42,13 +41,8 @@ public class DataMapper extends MapReduceBase
 			CellName cellName = cell.name();
 			if (cellName instanceof SimpleDenseCellName) {
 				SimpleDenseCellName name = (SimpleDenseCellName) cell.name();
-				try {
-					String nameString = ByteBufferUtil.string(name
-							.toByteBuffer());
-					logger.info("name: " + nameString);
-				} catch (MalformedInputException ex) {
-					throw new MalformedInputException(0);
-				}
+				long nameValue = ByteBufferUtil.toLong(name.get(0));
+				logger.info("long value: " + nameValue);
 			} else {
 				if (cellName instanceof CompoundDenseCellName) {
 					CompoundDenseCellName name = (CompoundDenseCellName) cell
