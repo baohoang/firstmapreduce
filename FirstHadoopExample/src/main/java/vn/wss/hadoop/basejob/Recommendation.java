@@ -1,9 +1,5 @@
 package vn.wss.hadoop.basejob;
 
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.cassandra.dht.Murmur3Partitioner;
 import org.apache.cassandra.hadoop.ColumnFamilyInputFormat;
 import org.apache.cassandra.hadoop.ConfigHelper;
@@ -20,6 +16,7 @@ import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+import org.apache.log4j.Logger;
 
 public class Recommendation extends Configuration implements Tool {
 	private final static String KEYSPACE = "tracking";
@@ -63,21 +60,22 @@ public class Recommendation extends Configuration implements Tool {
 		ConfigHelper.setInputPartitioner(conf,
 				Murmur3Partitioner.class.getName());
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
-		List<ByteBuffer> res = new ArrayList<ByteBuffer>();
-//		res.add(ByteBufferUtil.bytes("year_month"));
-//		res.add(ByteBufferUtil.bytes("at"));
-//		res.add(ByteBufferUtil.bytes("ip"));
-//		res.add(ByteBufferUtil.bytes("referer"));
-//		res.add(ByteBufferUtil.bytes("session_id"));
-//		res.add(ByteBufferUtil.bytes("uri"));
+		// res.add(ByteBufferUtil.bytes("year_month"));
+		// res.add(ByteBufferUtil.bytes("at"));
+		// res.add(ByteBufferUtil.bytes("ip"));
+		// res.add(ByteBufferUtil.bytes("referer"));
+		// res.add(ByteBufferUtil.bytes("session_id"));
+		// res.add(ByteBufferUtil.bytes("uri"));
 		// res.add(ByteBufferUtil.bytes("user_id"));
 		SlicePredicate predicate = new SlicePredicate()
 				.setSlice_range(new SliceRange()
 						.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
 						.setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
 						.setCount(Integer.MAX_VALUE));
-		predicate.addToColumn_names(ByteBufferUtil.bytes("uri"));
-		predicate.addToColumn_names(ByteBufferUtil.bytes("user_id"));
+		// predicate.addToColumn_names(ByteBufferUtil.bytes("uri"));
+		// predicate.addToColumn_names(ByteBufferUtil.bytes("user_id"));
+		Logger.getLogger(Recommendation.class).info(
+				predicate.getColumn_namesSize());
 		ConfigHelper.setInputSlicePredicate(conf, predicate);
 		CqlConfigHelper.setInputCQLPageRowSize(conf, "3");
 
