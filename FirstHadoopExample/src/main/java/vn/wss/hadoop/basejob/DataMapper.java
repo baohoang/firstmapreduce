@@ -31,11 +31,12 @@ public class DataMapper extends MapReduceBase
 		// String uri = null;
 		// String useridText = null;
 		// logger.info("starting ...");
-		logger.info("keys: " + keys.toString());
+		System.out.print("a");
 		for (Entry<ByteBuffer, Cell> e : columns.entrySet()) {
-			String key = e.getKey().toString();
-			Cell column = e.getValue();
-			logger.info("colum: " + key + " " + column.toString());
+//			String key = e.getKey().toString();
+//			Cell column = e.getValue();
+			System.out.print("a1");
+//			logger.info("colum: " + key + " " + column.toString());
 			// if ("uri".equalsIgnoreCase(e.getKey())) {
 			// uri = ByteBufferUtil.string(e.getValue());
 			// }
