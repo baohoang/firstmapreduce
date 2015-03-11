@@ -29,12 +29,12 @@ public class DataMapper extends MapReduceBase
 		// TODO Auto-generated method stub
 		// String uri = null;
 		// String useridText = null;
-		 logger.info("keys: "+keys.toString());
+		 logger.info("read a row");
 		for (Entry<ByteBuffer, Cell> e : columns.entrySet()) {
-			String key = e.getKey().toString();
+			ByteBuffer key = e.getKey();
 			Cell column = e.getValue();
-			System.out.print("a1");
-			logger.info("colum: " + key + " " + column.toString());
+//			logger
+//			logger.info("read colum: " + key + " " + column);
 			// if ("uri".equalsIgnoreCase(e.getKey())) {
 			// uri = ByteBufferUtil.string(e.getValue());
 			// }
