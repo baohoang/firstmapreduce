@@ -31,9 +31,9 @@ public class DataMapper extends MapReduceBase
 		// String uri = null;
 		// String useridText = null;
 		// logger.info("starting ...");
-		logger.info("keys: " + ByteBufferUtil.string(keys));
+		logger.info("keys: " + keys.toString());
 		for (Entry<ByteBuffer, Cell> e : columns.entrySet()) {
-			String key = ByteBufferUtil.string(e.getKey());
+			String key = e.getKey().toString();
 			Cell column = e.getValue();
 			logger.info("colum: " + key + " " + column.toString());
 			// if ("uri".equalsIgnoreCase(e.getKey())) {
