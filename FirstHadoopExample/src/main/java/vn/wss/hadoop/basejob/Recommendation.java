@@ -1,5 +1,9 @@
 package vn.wss.hadoop.basejob;
 
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.cassandra.dht.Murmur3Partitioner;
 import org.apache.cassandra.hadoop.ColumnFamilyInputFormat;
 import org.apache.cassandra.hadoop.ConfigHelper;
@@ -59,11 +63,20 @@ public class Recommendation extends Configuration implements Tool {
 		ConfigHelper.setInputPartitioner(conf,
 				Murmur3Partitioner.class.getName());
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
-		SlicePredicate predicate = new SlicePredicate()
-				.setSlice_range(new SliceRange()
-						.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-						.setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-						.setCount(Integer.MAX_VALUE));
+		List<ByteBuffer> res = new ArrayList<ByteBuffer>();
+		res.add(ByteBuffer.wrap("year_month".getBytes()));
+		res.add(ByteBuffer.wrap("at".getBytes()));
+		res.add(ByteBuffer.wrap("ip".getBytes()));
+		res.add(ByteBuffer.wrap("referer".getBytes()));
+		res.add(ByteBuffer.wrap("session_id".getBytes()));
+		res.add(ByteBuffer.wrap("uri".getBytes()));
+		res.add(ByteBuffer.wrap("user_id".getBytes()));
+		SlicePredicate predicate = new SlicePredicate().setColumn_names(res)
+				.setSlice_range(
+						new SliceRange()
+								.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+								.setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+								.setCount(Integer.MAX_VALUE));
 		ConfigHelper.setInputSlicePredicate(conf, predicate);
 		CqlConfigHelper.setInputCQLPageRowSize(conf, "3");
 
