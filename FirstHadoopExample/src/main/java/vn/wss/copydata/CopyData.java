@@ -33,7 +33,7 @@ public class CopyData {
 	public CopyData() {
 		log.info("create new instance");
 		connect();
-		String cql = "INSERT INTO tracking (year_month, at, ip, referer, session_id, uri) VALUES (?,?,?,?,?,?);";
+		String cql = "INSERT INTO tracking (year_month, at, ip, referer, session_id, uri,user_id) VALUES (?,?,?,?,?,?,?);";
 		statement = session.prepare(cql);
 		boundStatement = new BoundStatement(statement);
 	}
@@ -48,7 +48,7 @@ public class CopyData {
 	void writeData(Tracking tracking) {
 		session.execute(boundStatement.bind(tracking.getYear_month(),
 				tracking.getAt(), tracking.getIp(), tracking.getReferer(),
-				tracking.getSessionId(), tracking.getUri()));
+				tracking.getSessionId(), tracking.getUri(),tracking.getUserId()));
 	}
 
 	public void copyData(List<Tracking> list) {
