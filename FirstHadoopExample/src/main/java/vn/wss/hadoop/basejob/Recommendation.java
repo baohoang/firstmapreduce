@@ -4,9 +4,6 @@ import org.apache.cassandra.dht.Murmur3Partitioner;
 import org.apache.cassandra.hadoop.ColumnFamilyInputFormat;
 import org.apache.cassandra.hadoop.ConfigHelper;
 import org.apache.cassandra.hadoop.cql3.CqlConfigHelper;
-import org.apache.cassandra.thrift.SlicePredicate;
-import org.apache.cassandra.thrift.SliceRange;
-import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -63,12 +60,12 @@ public class Recommendation extends Configuration implements Tool {
 		ConfigHelper.setInputPartitioner(conf,
 				Murmur3Partitioner.class.getName());
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
-		SlicePredicate predicate = new SlicePredicate()
-				.setSlice_range(new SliceRange()
-						.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-						.setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-						.setCount(100));
-		ConfigHelper.setInputSlicePredicate(conf, predicate);
+//		SlicePredicate predicate = new SlicePredicate()
+//				.setSlice_range(new SliceRange()
+//						.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+//						.setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+//						.setCount(100));
+//		ConfigHelper.setInputSlicePredicate(conf, predicate);
 		CqlConfigHelper.setInputCQLPageRowSize(conf, "3");
 
 		// setup output Hadoop

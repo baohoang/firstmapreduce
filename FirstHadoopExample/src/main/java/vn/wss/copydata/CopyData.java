@@ -71,11 +71,11 @@ public class CopyData {
 		int limit = 100;
 		List<Tracking> res = CassandraDB.getInstance().getTrackings(year_month,
 				d, limit);
-		while (res.size() > 0) {
+//		while (res.size() > 0) {
 			CopyData.getInstance().copyData(res);
-			d = res.get(res.size() - 1).getAt();
-			res = CassandraDB.getInstance().getTrackings(year_month, d, limit);
-		}
+//			d = res.get(res.size() - 1).getAt();
+//			res = CassandraDB.getInstance().getTrackings(year_month, d, limit);
+//		}
 		CassandraDB.getInstance().close();
 		CopyData.getInstance().close();
 	}

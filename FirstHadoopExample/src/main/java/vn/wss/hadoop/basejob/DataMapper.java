@@ -1,61 +1,57 @@
 package vn.wss.hadoop.basejob;
 
-import org.apache.hadoop.mapred.*;
-import org.apache.hadoop.io.LongWritable;
-import org.apache.cassandra.utils.ByteBufferUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.charset.CharacterCodingException;
-import java.util.*;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.cassandra.db.Column;
+import org.apache.cassandra.utils.ByteBufferUtil;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.mapred.MapReduceBase;
+import org.apache.hadoop.mapred.Mapper;
+import org.apache.hadoop.mapred.OutputCollector;
+import org.apache.hadoop.mapred.Reporter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DataMapper extends MapReduceBase
 		implements
-		Mapper<Map<String, ByteBuffer>, Map<String, ByteBuffer>, LongWritable, LongWritable> {
+		Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>, LongWritable, LongWritable> {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(DataMapper.class);
 
-	public void map(Map<String, ByteBuffer> keys,
-			Map<String, ByteBuffer> columns,
+	public void map(ByteBuffer keys, SortedMap<ByteBuffer, Column> columns,
 			OutputCollector<LongWritable, LongWritable> context, Reporter arg3)
 			throws IOException {
 		// TODO Auto-generated method stub
-		String uri = null;
-		String useridText = null;
-		logger.info("starting ...");
-		for (Entry<String, ByteBuffer> e : columns.entrySet()) {
-			String value = ByteBufferUtil.string(e.getValue());
-			logger.debug("read {}:{}={} from {}", new Object[] {
-					toString(keys), e.getKey(), value, arg3.getInputSplit() });
-			if ("uri".equalsIgnoreCase(e.getKey())) {
-				uri = ByteBufferUtil.string(e.getValue());
-			}
-			if ("userid".equalsIgnoreCase(e.getKey())) {
-				useridText = ByteBufferUtil.string(e.getValue());
-			}
+//		String uri = null;
+//		String useridText = null;
+//		logger.info("starting ...");
+		logger.info("keys: " + ByteBufferUtil.string(keys));
+		for (Entry<ByteBuffer, Column> e : columns.entrySet()) {
+			String key = ByteBufferUtil.string(e.getKey());
+			Column column = e.getValue();
+			logger.info("colum: " + key + " " + column.toString());
+			// if ("uri".equalsIgnoreCase(e.getKey())) {
+			// uri = ByteBufferUtil.string(e.getValue());
+			// }
+			// if ("userid".equalsIgnoreCase(e.getKey())) {
+			// useridText = ByteBufferUtil.string(e.getValue());
+			// }
 		}
-		long userID = getUserID(useridText);
-		long itemID = getItemID(uri);
-		if (userID != -1 && itemID != -1) {
-			context.collect(new LongWritable(userID), new LongWritable(itemID));
-		}
+		// long userID = getUserID(useridText);
+		// long itemID = getItemID(uri);
+		// if (userID != -1 && itemID != -1) {
+		// context.collect(new LongWritable(userID), new LongWritable(itemID));
+		// }
+		context.collect(new LongWritable(1), new LongWritable(1));
 	}
 
-	private String toString(Map<String, ByteBuffer> keys) {
-		String result = "";
-		try {
-			for (ByteBuffer key : keys.values())
-				result = result + ByteBufferUtil.string(key) + ":";
-		} catch (CharacterCodingException e) {
-			logger.error("Failed to print keys", e);
-		}
-		return result;
-	}
+	
 
 	public long getUserID(String s) {
 		String regex = "\\d+";
