@@ -30,13 +30,13 @@ public class DataMapper extends MapReduceBase
 		// TODO Auto-generated method stub
 		// String uri = null;
 		// String useridText = null;
-		logger.info("read a row with key: " + ByteBufferUtil.string(keys,Charset.forName("UTF-8")));
+		logger.info("read a row with key: " + ByteBufferUtil.toInt(keys));
 		for (Entry<ByteBuffer, Cell> e : columns.entrySet()) {
 			ByteBuffer key = e.getKey();
 			Cell column = e.getValue();
 			// logger
-			logger.info("read: " + ByteBufferUtil.string(key) + "-"
-					+ ByteBufferUtil.string(column.value(),Charset.forName("UTF-8")));
+			logger.info("read: "
+					+ ByteBufferUtil.string(key, Charset.forName("UTF-8")));
 			// if ("uri".equalsIgnoreCase(e.getKey())) {
 			// uri = ByteBufferUtil.string(e.getValue());
 			// }
