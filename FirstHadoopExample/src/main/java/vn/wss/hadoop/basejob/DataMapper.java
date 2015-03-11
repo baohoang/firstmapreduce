@@ -8,8 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.cassandra.db.BufferCell;
-import org.apache.cassandra.db.composites.CellName;
-import org.apache.cassandra.db.composites.CompoundDenseCellName;
 import org.apache.cassandra.db.composites.SimpleDenseCellName;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.io.LongWritable;
@@ -34,34 +32,25 @@ public class DataMapper extends MapReduceBase
 		// String useridText = null;
 		logger.info("read a row with key: " + ByteBufferUtil.toInt(keys));
 		logger.info("read: " + columns.size());
+		int count = 0;
 		for (Entry<ByteBuffer, BufferCell> e : columns.entrySet()) {
 			ByteBuffer key = e.getKey();
-			logger.info("key: " + ByteBufferUtil.toLong(key));
+			count++;
 			BufferCell cell = e.getValue();
-			CellName cellName = cell.name();
-			if (cellName instanceof SimpleDenseCellName) {
-				SimpleDenseCellName name = (SimpleDenseCellName) cell.name();
-				long nameValue = ByteBufferUtil.toLong(name.get(0));
-				logger.info("long value: " + nameValue);
-			} else {
-				if (cellName instanceof CompoundDenseCellName) {
-					CompoundDenseCellName name = (CompoundDenseCellName) cell
-							.name();
-					for (int i = 0; i < name.size(); i++) {
-						String nameString = ByteBufferUtil.string(name
-								.toByteBuffer());
-						logger.info("compound name: " + nameString);
-					}
-				}
-			}
-
-			// // if ("uri".equalsIgnoreCase(e.getKey())) {
-			// // uri = ByteBufferUtil.string(e.getValue());
-			// // }
-			// // if ("userid".equalsIgnoreCase(e.getKey())) {
-			// // useridText = ByteBufferUtil.string(e.getValue());
-			// // }
+			SimpleDenseCellName name = (SimpleDenseCellName) cell.name();
+			long nameValue = ByteBufferUtil.toLong(name.get(0));
+			logger.info(count + "-key: " + ByteBufferUtil.toLong(key)
+					+ ", name: " + nameValue + ", timestamp: "
+					+ cell.timestamp() + ", value: "
+					+ ByteBufferUtil.string(cell.value()));
 		}
+
+		// // if ("uri".equalsIgnoreCase(e.getKey())) {
+		// // uri = ByteBufferUtil.string(e.getValue());
+		// // }
+		// // if ("userid".equalsIgnoreCase(e.getKey())) {
+		// // useridText = ByteBufferUtil.string(e.getValue());
+		// // }
 		// long userID = getUserID(useridText);
 		// long itemID = getItemID(uri);
 		// if (userID != -1 && itemID != -1) {
