@@ -2,6 +2,7 @@ package vn.wss.hadoop.basejob;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.regex.Matcher;
@@ -29,13 +30,13 @@ public class DataMapper extends MapReduceBase
 		// TODO Auto-generated method stub
 		// String uri = null;
 		// String useridText = null;
-		logger.info("read a row with key: " + ByteBufferUtil.string(keys));
+		logger.info("read a row with key: " + ByteBufferUtil.string(keys,Charset.forName("UTF-8")));
 		for (Entry<ByteBuffer, Cell> e : columns.entrySet()) {
 			ByteBuffer key = e.getKey();
 			Cell column = e.getValue();
 			// logger
 			logger.info("read: " + ByteBufferUtil.string(key) + "-"
-					+ ByteBufferUtil.string(column.value()));
+					+ ByteBufferUtil.string(column.value(),Charset.forName("UTF-8")));
 			// if ("uri".equalsIgnoreCase(e.getKey())) {
 			// uri = ByteBufferUtil.string(e.getValue());
 			// }
