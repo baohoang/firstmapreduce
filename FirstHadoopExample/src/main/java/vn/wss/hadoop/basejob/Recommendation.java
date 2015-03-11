@@ -64,19 +64,19 @@ public class Recommendation extends Configuration implements Tool {
 		ConfigHelper.setInputPartitioner(conf,
 				Murmur3Partitioner.class.getName());
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
-		List<ByteBuffer> res=new ArrayList<ByteBuffer>();
-		 res.add(ByteBufferUtil.bytes("year_month"));
+		List<ByteBuffer> res = new ArrayList<ByteBuffer>();
+		res.add(ByteBufferUtil.bytes("year_month"));
 		// res.add(ByteBufferUtil.bytes("at"));
 		// res.add(ByteBufferUtil.bytes("ip"));
 		// res.add(ByteBufferUtil.bytes("referer"));
 		// res.add(ByteBufferUtil.bytes("session_id"));
 		res.add(ByteBufferUtil.bytes("uri"));
-		 res.add(ByteBufferUtil.bytes("user_id"));
-		SlicePredicate predicate = new SlicePredicate().setColumn_names(res);
-//				.setSlice_range(new SliceRange()
-//						.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-//						.setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-//						.setCount(Integer.MAX_VALUE));
+		res.add(ByteBufferUtil.bytes("user_id"));
+		SlicePredicate predicate = new SlicePredicate()// .setColumn_names(res);
+				.setSlice_range(new SliceRange().setStart(
+						ByteBufferUtil.bytes("uri")).setFinish(
+						ByteBufferUtil.bytes("user_id")));
+		// .setCount(Integer.MAX_VALUE));
 		// predicate.addToColumn_names(ByteBufferUtil.bytes("uri"));
 		// predicate.addToColumn_names(ByteBufferUtil.bytes("user_id"));
 		ConfigHelper.setInputSlicePredicate(conf, predicate);
