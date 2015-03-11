@@ -65,13 +65,13 @@ public class Recommendation extends Configuration implements Tool {
 				Murmur3Partitioner.class.getName());
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
 		List<ByteBuffer> res=new ArrayList<ByteBuffer>();
-		// res.add(ByteBufferUtil.bytes("year_month"));
+		 res.add(ByteBufferUtil.bytes("year_month"));
 		// res.add(ByteBufferUtil.bytes("at"));
 		// res.add(ByteBufferUtil.bytes("ip"));
 		// res.add(ByteBufferUtil.bytes("referer"));
 		// res.add(ByteBufferUtil.bytes("session_id"));
 		res.add(ByteBufferUtil.bytes("uri"));
-		// res.add(ByteBufferUtil.bytes("user_id"));
+		 res.add(ByteBufferUtil.bytes("user_id"));
 		SlicePredicate predicate = new SlicePredicate().setColumn_names(res);
 //				.setSlice_range(new SliceRange()
 //						.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
@@ -79,8 +79,6 @@ public class Recommendation extends Configuration implements Tool {
 //						.setCount(Integer.MAX_VALUE));
 		// predicate.addToColumn_names(ByteBufferUtil.bytes("uri"));
 		// predicate.addToColumn_names(ByteBufferUtil.bytes("user_id"));
-		Logger.getLogger(Recommendation.class).info(
-				predicate.getColumn_namesSize());
 		ConfigHelper.setInputSlicePredicate(conf, predicate);
 		CqlConfigHelper.setInputCQLPageRowSize(conf, "3");
 
