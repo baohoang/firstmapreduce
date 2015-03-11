@@ -20,6 +20,7 @@ import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+import org.apache.log4j.Logger;
 
 public class Recommendation extends Configuration implements Tool {
 	private final static String KEYSPACE = "tracking";
@@ -71,12 +72,17 @@ public class Recommendation extends Configuration implements Tool {
 		res.add(ByteBufferUtil.bytes("session_id"));
 		res.add(ByteBufferUtil.bytes("uri"));
 		res.add(ByteBufferUtil.bytes("user_id"));
-		SlicePredicate predicate = new SlicePredicate().setColumn_names(res)
-				.setSlice_range(
-						new SliceRange()
-								.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-								.setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-								.setCount(Integer.MAX_VALUE));
+		SlicePredicate predicate = new SlicePredicate()
+				.setSlice_range(new SliceRange()
+						.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+						.setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+						.setCount(Integer.MAX_VALUE));
+		List<ByteBuffer> list = predicate.getColumn_names();
+		int size = list.size();
+		for (int i = 0; i < size; i++) {
+			Logger.getLogger(Recommendation.class).info(
+					"column: " + ByteBufferUtil.string(list.get(i)));
+		}
 		ConfigHelper.setInputSlicePredicate(conf, predicate);
 		CqlConfigHelper.setInputCQLPageRowSize(conf, "3");
 
