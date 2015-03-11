@@ -2,8 +2,6 @@ package vn.wss.hadoop.basejob;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,19 +29,20 @@ public class DataMapper extends MapReduceBase
 		// String uri = null;
 		// String useridText = null;
 		logger.info("read a row with key: " + ByteBufferUtil.toInt(keys));
-		for (Entry<ByteBuffer, Cell> e : columns.entrySet()) {
-			ByteBuffer key = e.getKey();
-			Cell column = e.getValue();
-			// logger
-			logger.info("read: "
-					+ e.toString());
-			// if ("uri".equalsIgnoreCase(e.getKey())) {
-			// uri = ByteBufferUtil.string(e.getValue());
-			// }
-			// if ("userid".equalsIgnoreCase(e.getKey())) {
-			// useridText = ByteBufferUtil.string(e.getValue());
-			// }
-		}
+		logger.info("read: "
+				+columns.size());
+//		for (Entry<ByteBuffer, Cell> e : columns.entrySet()) {
+//			ByteBuffer key = e.getKey();
+//			Cell column = e.getValue();
+//			// logger
+//			
+//			// if ("uri".equalsIgnoreCase(e.getKey())) {
+//			// uri = ByteBufferUtil.string(e.getValue());
+//			// }
+//			// if ("userid".equalsIgnoreCase(e.getKey())) {
+//			// useridText = ByteBufferUtil.string(e.getValue());
+//			// }
+//		}
 		// long userID = getUserID(useridText);
 		// long itemID = getItemID(uri);
 		// if (userID != -1 && itemID != -1) {
