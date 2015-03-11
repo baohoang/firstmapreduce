@@ -64,13 +64,13 @@ public class Recommendation extends Configuration implements Tool {
 				Murmur3Partitioner.class.getName());
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
 		List<ByteBuffer> res = new ArrayList<ByteBuffer>();
-		res.add(ByteBuffer.wrap("year_month".getBytes()));
-		res.add(ByteBuffer.wrap("at".getBytes()));
-		res.add(ByteBuffer.wrap("ip".getBytes()));
-		res.add(ByteBuffer.wrap("referer".getBytes()));
-		res.add(ByteBuffer.wrap("session_id".getBytes()));
-		res.add(ByteBuffer.wrap("uri".getBytes()));
-		res.add(ByteBuffer.wrap("user_id".getBytes()));
+		res.add(ByteBufferUtil.bytes("year_month"));
+		res.add(ByteBufferUtil.bytes("at"));
+		res.add(ByteBufferUtil.bytes("ip"));
+		res.add(ByteBufferUtil.bytes("referer"));
+		res.add(ByteBufferUtil.bytes("session_id"));
+		res.add(ByteBufferUtil.bytes("uri"));
+		res.add(ByteBufferUtil.bytes("user_id"));
 		SlicePredicate predicate = new SlicePredicate().setColumn_names(res)
 				.setSlice_range(
 						new SliceRange()
