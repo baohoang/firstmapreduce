@@ -59,12 +59,12 @@ public class Recommendation extends Configuration implements Tool {
 		ConfigHelper.setInputPartitioner(conf,
 				Murmur3Partitioner.class.getName());
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
-//		SlicePredicate predicate = new SlicePredicate()
-//				.setSlice_range(new SliceRange()
-//						.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-//						.setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-//						.setCount(100));
-//		ConfigHelper.setInputSlicePredicate(conf, predicate);
+		SlicePredicate predicate = new SlicePredicate()
+				.setSlice_range(new SliceRange()
+						.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+						.setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+						.setCount(Integer.MAX_VALUE));
+		ConfigHelper.setInputSlicePredicate(conf, predicate);
 		CqlConfigHelper.setInputCQLPageRowSize(conf, "3");
 
 		// setup output Hadoop
