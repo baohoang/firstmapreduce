@@ -8,20 +8,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.cassandra.db.Cell;
-import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapred.MapReduceBase;
 import org.apache.hadoop.mapred.Mapper;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DataMapper extends MapReduceBase
 		implements
 		Mapper<ByteBuffer, SortedMap<ByteBuffer, Cell>, LongWritable, LongWritable> {
 
-	private static final Logger logger = LoggerFactory
+	private static final Logger logger = LogManager
 			.getLogger(DataMapper.class);
 
 	public void map(ByteBuffer keys, SortedMap<ByteBuffer, Cell> columns,
@@ -30,13 +29,12 @@ public class DataMapper extends MapReduceBase
 		// TODO Auto-generated method stub
 		// String uri = null;
 		// String useridText = null;
-		// logger.info("starting ...");
-		System.out.print("a");
+		 logger.info("keys: "+keys.toString());
 		for (Entry<ByteBuffer, Cell> e : columns.entrySet()) {
-//			String key = e.getKey().toString();
-//			Cell column = e.getValue();
+			String key = e.getKey().toString();
+			Cell column = e.getValue();
 			System.out.print("a1");
-//			logger.info("colum: " + key + " " + column.toString());
+			logger.info("colum: " + key + " " + column.toString());
 			// if ("uri".equalsIgnoreCase(e.getKey())) {
 			// uri = ByteBufferUtil.string(e.getValue());
 			// }
