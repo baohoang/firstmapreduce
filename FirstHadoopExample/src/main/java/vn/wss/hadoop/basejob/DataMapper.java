@@ -2,6 +2,7 @@ package vn.wss.hadoop.basejob;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.MalformedInputException;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.regex.Matcher;
@@ -37,22 +38,29 @@ public class DataMapper extends MapReduceBase
 		for (Entry<ByteBuffer, BufferCell> e : columns.entrySet()) {
 			ByteBuffer key = e.getKey();
 			logger.info("key: " + ByteBufferUtil.toLong(key));
-			BufferCell cell=e.getValue();
-			CellName cellName=cell.name();
-			if(cellName instanceof SimpleDenseCellName){
-				SimpleDenseCellName name=(SimpleDenseCellName) cell.name();
-				String nameString=ByteBufferUtil.string(name.toByteBuffer());
-				logger.info("simple name: "+nameString);
-			}else{
-				if(cellName instanceof CompoundDenseCellName){
-					CompoundDenseCellName name=(CompoundDenseCellName) cell.name();
-					for(int i=0;i<name.size();i++){
-						String nameString=ByteBufferUtil.string(name.toByteBuffer());
-						logger.info("compound name: "+nameString);
+			BufferCell cell = e.getValue();
+			CellName cellName = cell.name();
+			if (cellName instanceof SimpleDenseCellName) {
+				SimpleDenseCellName name = (SimpleDenseCellName) cell.name();
+				try {
+					String nameString = ByteBufferUtil.string(name
+							.toByteBuffer());
+					logger.info("name: " + nameString);
+				} catch (MalformedInputException ex) {
+					throw new MalformedInputException(0);
+				}
+			} else {
+				if (cellName instanceof CompoundDenseCellName) {
+					CompoundDenseCellName name = (CompoundDenseCellName) cell
+							.name();
+					for (int i = 0; i < name.size(); i++) {
+						String nameString = ByteBufferUtil.string(name
+								.toByteBuffer());
+						logger.info("compound name: " + nameString);
 					}
 				}
 			}
-			
+
 			// // if ("uri".equalsIgnoreCase(e.getKey())) {
 			// // uri = ByteBufferUtil.string(e.getValue());
 			// // }
