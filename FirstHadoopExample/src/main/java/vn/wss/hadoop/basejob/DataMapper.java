@@ -29,7 +29,6 @@ public class DataMapper extends MapReduceBase
 		String useridText = null;
 		logger.info("starting ...");
 		for (Entry<String, ByteBuffer> e : columns.entrySet()) {
-
 			String value = ByteBufferUtil.string(e.getValue());
 			logger.debug("read {}:{}={} from {}", new Object[] {
 					toString(keys), e.getKey(), value, arg3.getInputSplit() });
