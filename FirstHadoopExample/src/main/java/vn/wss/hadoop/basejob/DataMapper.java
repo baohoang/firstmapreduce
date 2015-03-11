@@ -36,7 +36,7 @@ public class DataMapper extends MapReduceBase
 			Cell column = e.getValue();
 			// logger
 			logger.info("read: "
-					+ ByteBufferUtil.string(key, Charset.forName("UTF-8")));
+					+ e.toString());
 			// if ("uri".equalsIgnoreCase(e.getKey())) {
 			// uri = ByteBufferUtil.string(e.getValue());
 			// }
