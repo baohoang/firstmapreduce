@@ -9,8 +9,6 @@ import java.util.regex.Pattern;
 
 import org.apache.cassandra.db.BufferCell;
 import org.apache.cassandra.db.Cell;
-import org.apache.cassandra.db.composites.CellName;
-import org.apache.cassandra.db.composites.SimpleDenseCellName;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapred.MapReduceBase;
@@ -43,14 +41,14 @@ public class DataMapper extends MapReduceBase
 			if (cell instanceof BufferCell) {
 				BufferCell bufferCell = (BufferCell) cell;
 				ByteBuffer val = bufferCell.value();
-				CellName name = bufferCell.name();
-				String nameString = null;
-				if (name instanceof SimpleDenseCellName) {
-					nameString = ByteBufferUtil.string(name.toByteBuffer());
-				}
+//				CellName name = bufferCell.name();
+//				String nameString = null;
+				// if (name instanceof SimpleDenseCellName) {
+				// nameString = ByteBufferUtil.string(name.toByteBuffer());
+				// }
 				logger.info(count + "- key: " + ByteBufferUtil.toLong(key)
-						+ ", timestamp: " + bufferCell.timestamp() + ", name: "
-						+ nameString + ", value: " + ByteBufferUtil.string(val));
+						+ ", timestamp: " + bufferCell.timestamp()
+						+ ", value: " + ByteBufferUtil.string(val));
 			}
 		}
 

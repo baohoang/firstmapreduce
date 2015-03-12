@@ -9,7 +9,6 @@ import org.apache.cassandra.hadoop.ColumnFamilyInputFormat;
 import org.apache.cassandra.hadoop.ConfigHelper;
 import org.apache.cassandra.hadoop.cql3.CqlConfigHelper;
 import org.apache.cassandra.thrift.SlicePredicate;
-import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -59,7 +58,7 @@ public class Recommendation extends Configuration implements Tool {
 
 		// setup Input Cassandra
 		ConfigHelper.setInputInitialAddress(conf, args[0]);
-		ConfigHelper.setInputColumnFamily(conf, KEYSPACE, COLUMN_FAMILY,true);
+		ConfigHelper.setInputColumnFamily(conf, KEYSPACE, COLUMN_FAMILY, true);
 		ConfigHelper.setInputPartitioner(conf,
 				Murmur3Partitioner.class.getName());
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
@@ -71,11 +70,11 @@ public class Recommendation extends Configuration implements Tool {
 		// res.add(ByteBufferUtil.bytes("session_id"));
 		res.add(ByteBufferUtil.bytes("uri"));
 		res.add(ByteBufferUtil.bytes("user_id"));
-		SlicePredicate predicate = new SlicePredicate()// .setColumn_names(res);
-				.setSlice_range(new SliceRange()
-						.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-						.setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-						.setCount(Integer.MAX_VALUE));
+		SlicePredicate predicate = new SlicePredicate().setColumn_names(res);
+		// .setSlice_range(new SliceRange()
+		// .setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+		// .setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+		// .setCount(Integer.MAX_VALUE));
 		// predicate.addToColumn_names(ByteBufferUtil.bytes("uri"));
 		// predicate.addToColumn_names(ByteBufferUtil.bytes("user_id"));
 		ConfigHelper.setInputSlicePredicate(conf, predicate);
