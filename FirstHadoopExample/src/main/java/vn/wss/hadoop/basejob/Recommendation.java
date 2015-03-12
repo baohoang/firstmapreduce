@@ -64,7 +64,7 @@ public class Recommendation extends Configuration implements Tool {
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
 		List<ByteBuffer> res = new ArrayList<ByteBuffer>();
 		res.add(ByteBufferUtil.bytes("year_month"));
-		// res.add(ByteBufferUtil.bytes("at"));
+		 res.add(ByteBufferUtil.bytes("at"));
 		// res.add(ByteBufferUtil.bytes("ip"));
 		// res.add(ByteBufferUtil.bytes("referer"));
 		// res.add(ByteBufferUtil.bytes("session_id"));
