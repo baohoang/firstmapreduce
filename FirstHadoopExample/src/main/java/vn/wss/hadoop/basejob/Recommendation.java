@@ -58,7 +58,7 @@ public class Recommendation extends Configuration implements Tool {
 
 		// setup Input Cassandra
 		ConfigHelper.setInputInitialAddress(conf, args[0]);
-		ConfigHelper.setInputColumnFamily(conf, KEYSPACE, COLUMN_FAMILY, true);
+		ConfigHelper.setInputColumnFamily(conf, KEYSPACE, COLUMN_FAMILY);
 		ConfigHelper.setInputPartitioner(conf,
 				Murmur3Partitioner.class.getName());
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
