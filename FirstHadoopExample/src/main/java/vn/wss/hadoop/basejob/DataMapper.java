@@ -7,8 +7,7 @@ import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.cassandra.db.BufferCell;
-import org.apache.cassandra.db.composites.SimpleDenseCellName;
+import org.apache.cassandra.db.Column;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapred.MapReduceBase;
@@ -20,11 +19,11 @@ import org.apache.logging.log4j.Logger;
 
 public class DataMapper extends MapReduceBase
 		implements
-		Mapper<ByteBuffer, SortedMap<ByteBuffer, BufferCell>, LongWritable, LongWritable> {
+		Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>, LongWritable, LongWritable> {
 
 	private static final Logger logger = LogManager.getLogger(DataMapper.class);
 
-	public void map(ByteBuffer keys, SortedMap<ByteBuffer, BufferCell> columns,
+	public void map(ByteBuffer keys, SortedMap<ByteBuffer, Column> columns,
 			OutputCollector<LongWritable, LongWritable> context, Reporter arg3)
 			throws IOException {
 		// TODO Auto-generated method stub
@@ -33,29 +32,18 @@ public class DataMapper extends MapReduceBase
 		logger.info("read a row with key: " + ByteBufferUtil.toInt(keys));
 		logger.info("read: " + columns.size());
 		int count = 0;
-		for (Entry<ByteBuffer, BufferCell> e : columns.entrySet()) {
+		for (Entry<ByteBuffer, Column> e : columns.entrySet()) {
 			ByteBuffer key = e.getKey();
 			count++;
-			BufferCell cell = e.getValue();
-			SimpleDenseCellName name = (SimpleDenseCellName) cell.name();
-			long nameValue = ByteBufferUtil.toLong(name.get(0));
-			logger.info(count + "-key: " + ByteBufferUtil.toLong(key)
-					+ ", name: " + nameValue + ", timestamp: "
-					+ cell.timestamp() + ", value: "
-					+ ByteBufferUtil.string(cell.value()));
+			Column cell = e.getValue();
+			ByteBuffer name = cell.name();
+			ByteBuffer val = cell.value();
+			logger.info(count + "- key: " + ByteBufferUtil.toLong(key)
+					+ ", name: " + ByteBufferUtil.string(name)
+					+ ", timestamp: " + cell.timestamp() + ", value: "
+					+ ByteBufferUtil.string(val));
 		}
 
-		// // if ("uri".equalsIgnoreCase(e.getKey())) {
-		// // uri = ByteBufferUtil.string(e.getValue());
-		// // }
-		// // if ("userid".equalsIgnoreCase(e.getKey())) {
-		// // useridText = ByteBufferUtil.string(e.getValue());
-		// // }
-		// long userID = getUserID(useridText);
-		// long itemID = getItemID(uri);
-		// if (userID != -1 && itemID != -1) {
-		// context.collect(new LongWritable(userID), new LongWritable(itemID));
-		// }
 		context.collect(new LongWritable(1), new LongWritable(1));
 	}
 
