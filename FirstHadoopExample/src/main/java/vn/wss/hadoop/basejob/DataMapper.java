@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.cassandra.db.BufferCell;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.io.LongWritable;
@@ -34,15 +35,16 @@ public class DataMapper extends MapReduceBase
 		long userID = -1;
 		long itemID = -1;
 		for (Entry<ByteBuffer, BufferCell> e : columns.entrySet()) {
-			ByteBuffer key = e.getKey();
 			count++;
 			BufferCell cell = e.getValue();
 			ByteBuffer val = cell.value();
 			
 			if (count == 2) {
 				userID = getUserID(ByteBufferUtil.string(val));
+				logger.info("userID: "+userID);
 			}
 			if (count == 3) {
+				logger.info("uri: "+val);
 				itemID = getItemID(ByteBufferUtil.string(val));
 				if (userID != -1 && itemID != -1) {
 					context.collect(new LongWritable(userID), new LongWritable(
