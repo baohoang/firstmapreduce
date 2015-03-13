@@ -17,7 +17,7 @@ public class NumOfUsersMapper extends MapReduceBase implements
 			OutputCollector<LongWritable, IntWritable> arg2, Reporter arg3)
 			throws IOException {
 		// TODO Auto-generated method stub
-		for (LongWritable lw : arg1.getList()) {
+		for (LongWritable lw : arg1.get()) {
 			arg2.collect(lw, new IntWritable(1));
 		}
 	}

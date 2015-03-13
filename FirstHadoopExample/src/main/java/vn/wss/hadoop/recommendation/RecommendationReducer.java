@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -38,7 +37,7 @@ public class RecommendationReducer extends MapReduceBase implements
 			RatingWritable r = arg1.next();
 			sortedMap.put(r.getRate().get(), r.getId().get());
 		}
-		List<LongWritable> val = new ArrayList<LongWritable>();
+		ArrayList<LongWritable> val = new ArrayList<LongWritable>();
 		Iterator<Entry<Double, Long>> iterator = sortedMap.entrySet()
 				.iterator();
 		while (iterator.hasNext()) {
@@ -49,6 +48,8 @@ public class RecommendationReducer extends MapReduceBase implements
 				val.add(new LongWritable(entry.getValue()));
 			}
 		}
-		arg2.collect(arg0, new ListLongWritable(val));
+		LongWritable[] v = val.toArray(new LongWritable[val.size()]);
+		ListLongWritable value = new ListLongWritable(LongWritable.class, v);
+		arg2.collect(arg0, value);
 	}
 }

@@ -20,7 +20,6 @@ import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-
 import vn.wss.hadoop.model.ListLongWritable;
 
 public class Recommendation extends Configuration implements Tool {
