@@ -21,6 +21,8 @@ import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+import vn.wss.hadoop.model.ListLongWritable;
+
 public class Recommendation extends Configuration implements Tool {
 	private final static String KEYSPACE = "tracking";
 	private final static String COLUMN_FAMILY = "tracking";
@@ -46,7 +48,7 @@ public class Recommendation extends Configuration implements Tool {
 		// Setting configuration object with the Data Type of output Key and
 		// Value
 		conf.setOutputKeyClass(LongWritable.class);
-		conf.setOutputValueClass(LongWritable.class);
+		conf.setOutputValueClass(ListLongWritable.class);
 
 		// Providing the mapper and reducer class names
 		conf.setMapperClass(DataMapper.class);
