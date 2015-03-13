@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.cassandra.db.Column;
-import org.apache.cassandra.db.Row;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapred.MapReduceBase;
@@ -17,6 +16,8 @@ import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.datastax.driver.core.Row;
 
 public class DataMapper extends MapReduceBase
 		implements
