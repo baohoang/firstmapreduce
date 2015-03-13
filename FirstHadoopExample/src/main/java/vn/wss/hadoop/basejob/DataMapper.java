@@ -6,7 +6,9 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.cassandra.db.Column;
+import org.apache.cassandra.db.Row;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapred.MapReduceBase;
@@ -18,30 +20,31 @@ import org.apache.logging.log4j.Logger;
 
 public class DataMapper extends MapReduceBase
 		implements
-		Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>, LongWritable, LongWritable> {
+		Mapper<Long, Row, LongWritable, LongWritable> {
 
 	private static final Logger logger = LogManager.getLogger(DataMapper.class);
 
-	public void map(ByteBuffer keys, SortedMap<ByteBuffer, Column> columns,
+	public void map(Long key, Row row,
 			OutputCollector<LongWritable, LongWritable> context, Reporter arg3)
 			throws IOException {
 		// TODO Auto-generated method stub
 		// String uri = null;
 		// String useridText = null;
-		logger.info("read a row with key: " + ByteBufferUtil.toInt(keys));
-		logger.info("read: " + columns.size());
+		logger.info("read a row with key: " + key);
 		int count = 0;
 		long userID = -1;
 		long itemID = -1;
-		for (Entry<ByteBuffer, Column> e : columns.entrySet()) {
-			count++;
-			ByteBuffer key = e.getKey();
-			Column cell = e.getValue();
-			ByteBuffer name = cell.name();
-			ByteBuffer val = cell.value();
-			logger.info("key: " + ByteBufferUtil.toLong(key));
-			logger.info("name: " + ByteBufferUtil.toLong(name));
-			logger.info("value: " + ByteBufferUtil.string(val));
+		String value = row.toString();
+		logger.info("read {}:{}={} from {}", key, "line", value, arg3.getInputSplit());
+//		for (Entry<ByteBuffer, Column> e : columns.entrySet()) {
+//			count++;
+//			ByteBuffer key = e.getKey();
+//			Column cell = e.getValue();
+//			ByteBuffer name = cell.name();
+//			ByteBuffer val = cell.value();
+//			logger.info("key: " + ByteBufferUtil.toLong(key));
+//			logger.info("name: " + ByteBufferUtil.toLong(name));
+//			logger.info("value: " + ByteBufferUtil.string(val));
 
 			// if (count % 6 == 5) {
 			// logger.info("userID: " + ByteBufferUtil.string(val));
@@ -51,7 +54,7 @@ public class DataMapper extends MapReduceBase
 			// itemID));
 			// }
 			// }
-		}
+//		}
 	}
 
 	public long getUserID(String s) {

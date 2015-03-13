@@ -1,16 +1,9 @@
 package vn.wss.hadoop.basejob;
 
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.cassandra.dht.Murmur3Partitioner;
-import org.apache.cassandra.hadoop.ColumnFamilyInputFormat;
 import org.apache.cassandra.hadoop.ConfigHelper;
 import org.apache.cassandra.hadoop.cql3.CqlConfigHelper;
-import org.apache.cassandra.thrift.SlicePredicate;
-import org.apache.cassandra.thrift.SliceRange;
-import org.apache.cassandra.utils.ByteBufferUtil;
+import org.apache.cassandra.hadoop.cql3.CqlInputFormat;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -20,6 +13,7 @@ import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+
 import vn.wss.hadoop.model.ListLongWritable;
 
 public class Recommendation extends Configuration implements Tool {
@@ -65,24 +59,27 @@ public class Recommendation extends Configuration implements Tool {
 		ConfigHelper.setInputColumnFamily(conf, KEYSPACE, COLUMN_FAMILY);
 		ConfigHelper.setInputPartitioner(conf,
 				Murmur3Partitioner.class.getName());
-		conf.setInputFormat(ColumnFamilyInputFormat.class);
-		List<ByteBuffer> res = new ArrayList<ByteBuffer>();
-		res.add(ByteBufferUtil.bytes("year_month"));
-		 res.add(ByteBufferUtil.bytes("at"));
-		// res.add(ByteBufferUtil.bytes("ip"));
-		// res.add(ByteBufferUtil.bytes("referer"));
-		// res.add(ByteBufferUtil.bytes("session_id"));
-		res.add(ByteBufferUtil.bytes("uri"));
-		res.add(ByteBufferUtil.bytes("user_id"));
-		SlicePredicate predicate = new SlicePredicate()//.setColumn_names(res);
-		 .setSlice_range(new SliceRange()
-		 .setStart("uri".getBytes())
-		 .setFinish("user_id".getBytes())
-		 .setCount(2));
-		// predicate.addToColumn_names(ByteBufferUtil.bytes("uri"));
-		// predicate.addToColumn_names(ByteBufferUtil.bytes("user_id"));
-		ConfigHelper.setInputSlicePredicate(conf, predicate);
+		conf.setInputFormat(CqlInputFormat.class);
 		CqlConfigHelper.setInputCQLPageRowSize(conf, "3");
+//		String query= "select * from " + COLUMN_FAMILY + " where year_month= ? allow filtering";
+//		CqlConfigHelper.setInputCql(conf,query);
+//		List<ByteBuffer> res = new ArrayList<ByteBuffer>();
+//		res.add(ByteBufferUtil.bytes("year_month"));
+//		 res.add(ByteBufferUtil.bytes("at"));
+//		// res.add(ByteBufferUtil.bytes("ip"));
+//		// res.add(ByteBufferUtil.bytes("referer"));
+//		// res.add(ByteBufferUtil.bytes("session_id"));
+//		res.add(ByteBufferUtil.bytes("uri"));
+//		res.add(ByteBufferUtil.bytes("user_id"));
+//		SlicePredicate predicate = new SlicePredicate()//.setColumn_names(res);
+//		 .setSlice_range(new SliceRange()
+//		 .setStart("uri".getBytes())
+//		 .setFinish("user_id".getBytes())
+//		 .setCount(2));
+//		// predicate.addToColumn_names(ByteBufferUtil.bytes("uri"));
+//		// predicate.addToColumn_names(ByteBufferUtil.bytes("user_id"));
+//		ConfigHelper.setInputSlicePredicate(conf, predicate);
+		
 
 		// setup output Hadoop
 		// the hdfs input and output directory to be fetched from the command
