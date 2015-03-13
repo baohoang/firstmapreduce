@@ -20,11 +20,11 @@ public class DataReducer extends MapReduceBase implements
 			OutputCollector<LongWritable, ListLongWritable> arg2, Reporter arg3)
 			throws IOException {
 		// TODO Auto-generated method stub
-		List<LongWritable> arr = new ArrayList<LongWritable>();
+		List<Long> arr = new ArrayList<Long>();
 		// long res = 0;
 		while (arg1.hasNext()) {
 			// res += arg1.next().get();
-			arr.add(arg1.next());
+			arr.add(arg1.next().get());
 		}
 		ListLongWritable llw = new ListLongWritable(arr);
 		arg2.collect(arg0, llw);

@@ -20,8 +20,8 @@ public class NumOfSimilarUsersMapper extends MapReduceBase implements
 		// TODO Auto-generated method stub
 		for (int i = 0; i < arg1.size(); i++) {
 			for (int j = i + 1; j < arg1.size(); j++) {
-				long aID = arg1.get(i).get();
-				long bID = arg1.get(j).get();
+				long aID = arg1.get(i);
+				long bID = arg1.get(j);
 				PairWritable e1 = new PairWritable(aID, bID);
 				PairWritable e2 = new PairWritable(bID, aID);
 				arg2.collect(e1, new IntWritable(1));

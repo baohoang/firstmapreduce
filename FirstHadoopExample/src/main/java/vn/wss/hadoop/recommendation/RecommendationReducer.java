@@ -38,7 +38,7 @@ public class RecommendationReducer extends MapReduceBase implements
 			RatingWritable r = arg1.next();
 			sortedMap.put(r.getRate().get(), r.getId().get());
 		}
-		List<LongWritable> val = new ArrayList<LongWritable>();
+		List<Long> val = new ArrayList<Long>();
 		Iterator<Entry<Double, Long>> iterator = sortedMap.entrySet()
 				.iterator();
 		while (iterator.hasNext()) {
@@ -46,7 +46,7 @@ public class RecommendationReducer extends MapReduceBase implements
 				break;
 			} else {
 				Entry<Double, Long> entry = iterator.next();
-				val.add(new LongWritable(entry.getValue()));
+				val.add(entry.getValue());
 			}
 		}
 		arg2.collect(arg0, new ListLongWritable(val));

@@ -5,70 +5,93 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.Writable;
 
-public class ListLongWritable implements Writable {
+public class ListLongWritable implements Comparable<ListLongWritable>,
+		Cloneable {
 
-	private List<LongWritable> list;
-	private IntWritable size;
+	private List<Long> list;
 
 	public ListLongWritable() {
-		list = new ArrayList<LongWritable>();
-		size = new IntWritable(0);
+		list = new ArrayList<Long>();
 	}
 
-	public ListLongWritable(List<LongWritable> list) {
+	public ListLongWritable(List<Long> list) {
 		this.list = list;
-		this.size = new IntWritable(list.size());
 	}
 
-	public ListLongWritable(List<LongWritable> list, IntWritable size) {
-		this.list = list;
-		this.size = size;
-	}
-
-	public List<LongWritable> getList() {
+	public List<Long> getList() {
 		return list;
 	}
 
-	public void setList(List<LongWritable> list) {
+	public void setList(List<Long> list) {
 		this.list = list;
 	}
 
 	public void write(DataOutput out) throws IOException {
 		// TODO Auto-generated method stub
-		size.write(out);
-		for (LongWritable lw : list) {
-			lw.write(out);
+		out.writeInt(list.size());
+		for (int i = 0; i < list.size(); i++) {
+			out.writeLong(list.get(i));
 		}
 	}
 
 	public void readFields(DataInput in) throws IOException {
 		// TODO Auto-generated method stub
-		size.readFields(in);
-		for (int i = 0; i < size.get(); i++) {
-			LongWritable lw = new LongWritable();
-			lw.readFields(in);
-			list.add(lw);
+		int size = in.readInt();
+		list = new ArrayList<Long>();
+		for (int i = 0; i < size; i++) {
+			list.add(in.readLong());
 		}
 	}
 
-	public void add(LongWritable lw) {
+	public void add(long lw) {
 		list.add(lw);
 	}
 
 	public int size() {
-		return size.get();
+		return list.size();
 	}
 
-	public LongWritable get(int index) {
+	public long get(int index) {
 		return list.get(index);
 	}
 
 	public void clear() {
 		list.clear();
-		size = new IntWritable(0);
 	}
+
+	public int compareTo(ListLongWritable o) {
+		// TODO Auto-generated method stub
+		if (list.size() == o.size()) {
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i) == o.get(i)) {
+
+				} else {
+					return list.get(i) > o.get(i) ? 1 : -1;
+				}
+			}
+			return 0;
+		} else {
+			return list.size() > o.size() ? 1 : -1;
+		}
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return new ListLongWritable();
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		int prime = 31;
+		int result = 1;
+		result = prime * result + Integer.hashCode(list.size());
+		for (int i = 0; i < list.size(); i++) {
+			result = prime * result + Long.hashCode(list.get(i));
+		}
+		return result;
+	}
+
 }
