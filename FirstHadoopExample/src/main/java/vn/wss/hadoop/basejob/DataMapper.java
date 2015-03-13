@@ -6,8 +6,7 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.cassandra.db.BufferCell;
+import org.apache.cassandra.db.Column;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapred.MapReduceBase;
@@ -19,11 +18,11 @@ import org.apache.logging.log4j.Logger;
 
 public class DataMapper extends MapReduceBase
 		implements
-		Mapper<ByteBuffer, SortedMap<ByteBuffer, BufferCell>, LongWritable, LongWritable> {
+		Mapper<ByteBuffer, SortedMap<ByteBuffer, Column>, LongWritable, LongWritable> {
 
 	private static final Logger logger = LogManager.getLogger(DataMapper.class);
 
-	public void map(ByteBuffer keys, SortedMap<ByteBuffer, BufferCell> columns,
+	public void map(ByteBuffer keys, SortedMap<ByteBuffer, Column> columns,
 			OutputCollector<LongWritable, LongWritable> context, Reporter arg3)
 			throws IOException {
 		// TODO Auto-generated method stub
@@ -34,22 +33,24 @@ public class DataMapper extends MapReduceBase
 		int count = 0;
 		long userID = -1;
 		long itemID = -1;
-		for (Entry<ByteBuffer, BufferCell> e : columns.entrySet()) {
+		for (Entry<ByteBuffer, Column> e : columns.entrySet()) {
 			count++;
-			BufferCell cell = e.getValue();
+			ByteBuffer key = e.getKey();
+			Column cell = e.getValue();
+			ByteBuffer name = cell.name();
 			ByteBuffer val = cell.value();
-			if (count % 6 == 3) {
-				itemID = getItemID(ByteBufferUtil.string(val));
-				logger.info("uri: " + ByteBufferUtil.string(val));
-			}
-			if (count % 6 == 5) {
-				logger.info("userID: " + ByteBufferUtil.string(val));
-				userID = getUserID(ByteBufferUtil.string(val));
-				if (userID != -1 && itemID != -1) {
-					context.collect(new LongWritable(userID), new LongWritable(
-							itemID));
-				}
-			}
+			logger.info("key: " + ByteBufferUtil.string(key));
+			logger.info("name: " + ByteBufferUtil.string(name));
+			logger.info("value: " + ByteBufferUtil.string(val));
+
+			// if (count % 6 == 5) {
+			// logger.info("userID: " + ByteBufferUtil.string(val));
+			// userID = getUserID(ByteBufferUtil.string(val));
+			// if (userID != -1 && itemID != -1) {
+			// context.collect(new LongWritable(userID), new LongWritable(
+			// itemID));
+			// }
+			// }
 		}
 	}
 
