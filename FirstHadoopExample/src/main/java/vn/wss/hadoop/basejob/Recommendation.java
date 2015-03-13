@@ -78,7 +78,7 @@ public class Recommendation extends Configuration implements Tool {
 		 .setSlice_range(new SliceRange()
 		 .setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
 		 .setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-		 .setCount(Integer.MAX_VALUE));
+		 .setCount(100));
 		// predicate.addToColumn_names(ByteBufferUtil.bytes("uri"));
 		// predicate.addToColumn_names(ByteBufferUtil.bytes("user_id"));
 		ConfigHelper.setInputSlicePredicate(conf, predicate);
