@@ -38,9 +38,7 @@ public class DataMapper extends MapReduceBase
 			count++;
 			BufferCell cell = e.getValue();
 			ByteBuffer val = cell.value();
-			logger.info(count + "- key: " + ByteBufferUtil.toLong(key)
-					+ ", timestamp: " + cell.timestamp() + ", value: "
-					+ ByteBufferUtil.string(val));
+			
 			if (count == 2) {
 				userID = getUserID(ByteBufferUtil.string(val));
 			}
@@ -49,6 +47,7 @@ public class DataMapper extends MapReduceBase
 				if (userID != -1 && itemID != -1) {
 					context.collect(new LongWritable(userID), new LongWritable(
 							itemID));
+					logger.info(userID+ " "+itemID);
 				}
 			}
 		}
