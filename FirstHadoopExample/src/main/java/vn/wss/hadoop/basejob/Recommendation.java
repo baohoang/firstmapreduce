@@ -76,8 +76,8 @@ public class Recommendation extends Configuration implements Tool {
 		res.add(ByteBufferUtil.bytes("user_id"));
 		SlicePredicate predicate = new SlicePredicate()//.setColumn_names(res);
 		 .setSlice_range(new SliceRange()
-		 .setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-		 .setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+		 .setStart("uri".getBytes())
+		 .setFinish("user_id".getBytes())
 		 .setCount(2));
 		// predicate.addToColumn_names(ByteBufferUtil.bytes("uri"));
 		// predicate.addToColumn_names(ByteBufferUtil.bytes("user_id"));
