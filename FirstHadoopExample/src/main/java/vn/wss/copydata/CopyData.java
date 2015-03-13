@@ -66,8 +66,8 @@ public class CopyData {
 	}
 
 	public static void main(String[] args) {
-		Date d = new DateTime(2015, 3, 1, 0, 0).toDate();
-		int year_month = 2015 * 100 +3;
+		Date d = new DateTime(2015, 2, 1, 0, 0).toDate();
+		int year_month = 2015 * 100 +2;
 		int limit = 100;
 		List<Tracking> res = CassandraDB.getInstance().getTrackings(year_month,
 				d, limit);
