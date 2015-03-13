@@ -38,18 +38,16 @@ public class DataMapper extends MapReduceBase
 			count++;
 			BufferCell cell = e.getValue();
 			ByteBuffer val = cell.value();
-			logger.info(count+" "+ByteBufferUtil.string(val));
-			if (count%6 == 2) {
-				userID = getUserID(ByteBufferUtil.string(val));
-				logger.info("userID: "+ByteBufferUtil.string(val));
-			}
-			if (count%6 == 3) {
-				logger.info("uri: "+ByteBufferUtil.string(val));
+			if (count % 6 == 3) {
 				itemID = getItemID(ByteBufferUtil.string(val));
+				logger.info("uri: " + ByteBufferUtil.string(val));
+			}
+			if (count % 6 == 5) {
+				logger.info("userID: " + ByteBufferUtil.string(val));
+				userID = getUserID(ByteBufferUtil.string(val));
 				if (userID != -1 && itemID != -1) {
 					context.collect(new LongWritable(userID), new LongWritable(
 							itemID));
-					logger.info(userID+ " "+itemID);
 				}
 			}
 		}
