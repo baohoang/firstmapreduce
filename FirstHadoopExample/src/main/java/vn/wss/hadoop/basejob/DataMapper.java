@@ -38,7 +38,7 @@ public class DataMapper extends MapReduceBase
 			count++;
 			BufferCell cell = e.getValue();
 			ByteBuffer val = cell.value();
-			
+			logger.info(count+" "+ByteBufferUtil.string(val));
 			if (count%6 == 2) {
 				userID = getUserID(ByteBufferUtil.string(val));
 				logger.info("userID: "+ByteBufferUtil.string(val));
