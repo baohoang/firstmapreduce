@@ -39,7 +39,7 @@ public class DataMapper extends MapReduceBase
 			Column cell = e.getValue();
 			ByteBuffer name = cell.name();
 			ByteBuffer val = cell.value();
-			logger.info("key: " + ByteBufferUtil.string(key));
+			logger.info("key: " + ByteBufferUtil.toLong(key));
 			logger.info("name: " + ByteBufferUtil.string(name));
 			logger.info("value: " + ByteBufferUtil.string(val));
 
