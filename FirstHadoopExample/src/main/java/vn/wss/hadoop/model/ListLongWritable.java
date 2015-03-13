@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Writable;
+import org.apache.mahout.math.Arrays;
 
 public class ListLongWritable extends ArrayWritable {
 
@@ -25,9 +26,7 @@ public class ListLongWritable extends ArrayWritable {
 
 	@Override
 	public void write(DataOutput arg0) throws IOException {
-		for (LongWritable i : get()) {
-			i.write(arg0);
-		}
+		super.write(arg0);
 	}
 
 	public int size() {
@@ -37,5 +36,11 @@ public class ListLongWritable extends ArrayWritable {
 	public LongWritable get(int index) {
 		return get()[index];
 	}
+
+	public String toString() {
+		// TODO Auto-generated method stub
+		return Arrays.toString(get());
+	}
+	
 
 }

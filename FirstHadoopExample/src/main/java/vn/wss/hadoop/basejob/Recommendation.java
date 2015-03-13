@@ -48,6 +48,8 @@ public class Recommendation extends Configuration implements Tool {
 		// Value
 		conf.setOutputKeyClass(LongWritable.class);
 		conf.setOutputValueClass(ListLongWritable.class);
+		conf.setMapOutputKeyClass(LongWritable.class);
+		conf.setMapOutputValueClass(LongWritable.class);
 
 		// Providing the mapper and reducer class names
 		conf.setMapperClass(DataMapper.class);
@@ -66,17 +68,17 @@ public class Recommendation extends Configuration implements Tool {
 		conf.setInputFormat(ColumnFamilyInputFormat.class);
 		List<ByteBuffer> res = new ArrayList<ByteBuffer>();
 		res.add(ByteBufferUtil.bytes("year_month"));
-		 res.add(ByteBufferUtil.bytes("at"));
+		res.add(ByteBufferUtil.bytes("at"));
 		// res.add(ByteBufferUtil.bytes("ip"));
 		// res.add(ByteBufferUtil.bytes("referer"));
 		// res.add(ByteBufferUtil.bytes("session_id"));
 		res.add(ByteBufferUtil.bytes("uri"));
 		res.add(ByteBufferUtil.bytes("user_id"));
-		SlicePredicate predicate = new SlicePredicate()//.setColumn_names(res);
-		 .setSlice_range(new SliceRange()
-		 .setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-		 .setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
-		 .setCount(Integer.MAX_VALUE));
+		SlicePredicate predicate = new SlicePredicate()// .setColumn_names(res);
+				.setSlice_range(new SliceRange()
+						.setStart(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+						.setFinish(ByteBufferUtil.EMPTY_BYTE_BUFFER)
+						.setCount(Integer.MAX_VALUE));
 		// predicate.addToColumn_names(ByteBufferUtil.bytes("uri"));
 		// predicate.addToColumn_names(ByteBufferUtil.bytes("user_id"));
 		ConfigHelper.setInputSlicePredicate(conf, predicate);
