@@ -41,10 +41,10 @@ public class DataMapper extends MapReduceBase
 			
 			if (count%6 == 2) {
 				userID = getUserID(ByteBufferUtil.string(val));
-				logger.info("userID: "+userID);
+				logger.info("userID: "+ByteBufferUtil.string(val));
 			}
 			if (count%6 == 3) {
-				logger.info("uri: "+val);
+				logger.info("uri: "+ByteBufferUtil.string(val));
 				itemID = getItemID(ByteBufferUtil.string(val));
 				if (userID != -1 && itemID != -1) {
 					context.collect(new LongWritable(userID), new LongWritable(
