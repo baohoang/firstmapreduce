@@ -39,11 +39,11 @@ public class DataMapper extends MapReduceBase
 			BufferCell cell = e.getValue();
 			ByteBuffer val = cell.value();
 			
-			if (count == 2) {
+			if (count%6 == 2) {
 				userID = getUserID(ByteBufferUtil.string(val));
 				logger.info("userID: "+userID);
 			}
-			if (count == 3) {
+			if (count%6 == 3) {
 				logger.info("uri: "+val);
 				itemID = getItemID(ByteBufferUtil.string(val));
 				if (userID != -1 && itemID != -1) {
