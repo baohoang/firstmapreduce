@@ -40,7 +40,7 @@ public class DataMapper extends MapReduceBase
 			ByteBuffer name = cell.name();
 			ByteBuffer val = cell.value();
 			logger.info("key: " + ByteBufferUtil.toLong(key));
-			logger.info("name: " + ByteBufferUtil.string(name));
+			logger.info("name: " + ByteBufferUtil.toLong(name));
 			logger.info("value: " + ByteBufferUtil.string(val));
 
 			// if (count % 6 == 5) {
